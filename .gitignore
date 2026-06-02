@@ -1,0 +1,14 @@
+# Ignore dataset images
+*.jpg
+*.png
+data/
+
+# Ignore heavy PyTorch model checkpoints
+*.pth
+*.pt
+
+# Ignore python cache
+__pycache__/
+.ipynb_checkpoints/
+
+carla_overview_DOCUMENT.pdf
