@@ -6,24 +6,13 @@ from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 
 class CarlaSafetyDataset(Dataset):
-    """
-    Custom interface to parse and preprocess camera frames collected from the
-    CARLA simulator under clear weather and daytime conditions.
-    """
     def __init__(self, metadata_csv, img_dir, transform=None):
-        """
-        Args:
-            metadata_csv (str): Path to the log mapping filenames to binary target metrics.
-            img_dir (str): Base target directory housing raw image assets.
-            transform (callable, optional): Standard image transformation sequences.
-        """
         self.metadata = pd.read_csv(metadata_csv)
         self.img_dir = img_dir
         
         if transform is not None:
             self.transform = transform
         else:
-            # Implement empirical ImageNet standard normalization parameters
             self.transform = transforms.Compose([
                 transforms.Resize((224, 224)),
                 transforms.ToTensor(),
@@ -37,14 +26,27 @@ class CarlaSafetyDataset(Dataset):
         return len(self.metadata)
 
     def __getitem__(self, idx):
-        img_name = os.path.join(self.img_dir, self.metadata.iloc[idx]['image_file'])
+        # 1. Read the frame number and format it as a 6-digit padded string with a .png extension
+        frame_id = str(self.metadata.iloc[idx]['frame']).zfill(6)
+        img_filename = f"{frame_id}.png"
+        
+        # 2. Update path to match the extracted 'validation/rgb-front/' directory structure
+        img_name = os.path.join(self.img_dir, "validation", "rgb-front", img_filename)
+        
+        # Fallback check to ensure your script handles non-nested paths gracefully
+        if not os.path.exists(img_name):
+            img_name = os.path.join(self.img_dir, "rgb-front", img_filename)
+            
+        if not os.path.exists(img_name):
+            raise FileNotFoundError(f"[CRITICAL] Image index asset not found at destination path: {img_name}")
+            
         image = Image.open(img_name).convert('RGB')
         
-        # Extract binary labels for the targeted classification tasks
+        # 3. Map values using the verified database column headers
         labels = {
-            'traffic_light': torch.tensor(self.metadata.iloc[idx]['traffic_light'], dtype=torch.float32),
-            'pedestrian': torch.tensor(self.metadata.iloc[idx]['pedestrian'], dtype=torch.float32),
-            'vehicle': torch.tensor(self.metadata.iloc[idx]['vehicle'], dtype=torch.float32)
+            'traffic_light': torch.tensor(self.metadata.iloc[idx]['has_traffic_light'], dtype=torch.float32),
+            'pedestrian': torch.tensor(self.metadata.iloc[idx]['has_pedestrian'], dtype=torch.float32),
+            'vehicle': torch.tensor(self.metadata.iloc[idx]['has_vehicle'], dtype=torch.float32)
         }
         
         if self.transform:

@@ -125,19 +125,26 @@ def execute_training_pipeline(task_key, train_csv, img_dir, test_csv, epochs=10,
     return acc, prec, rec, f1
 
 if __name__ == "__main__":
-    # Check if we are running in a Google Colab environment
-    IN_COLAB = 'google.colab' in sys.modules
+    import os
+    import sys
     
-    if IN_COLAB:
-        # Update the targets to use your uploaded labels.csv file
+    # Check for the explicit absolute path of the Colab root directory
+    IS_COLAB_ENV = os.path.exists("/content")
+    
+    if IS_COLAB_ENV:
+        # Enforce strict, absolute path mappings for the cloud environment
         train_csv = "/content/carla-ml-safety/data/labels.csv"
         test_csv = "/content/carla-ml-safety/data/labels.csv"
-        img_dir = "/content/carla-ml-safety/data/images"
+        img_dir = "/content/carla-ml-safety/data"
+        print(f"[ENV INFO] Colab environment confirmed absolute paths: {train_csv}")
     else:
+        # Maintain relative mappings for your native local laptop environment
         train_csv = "../../data/labels.csv"
         test_csv = "../../data/labels.csv"
-        img_dir = "../../data/images"
-    
+        img_dir = "../../data"
+        print(f"[ENV INFO] Local host confirmed relative paths: {train_csv}")
+        
+    # Match the execution keys exactly to the database column schema headers
     tasks = ['pedestrian', 'vehicle', 'traffic_light']
     summary_results = {}
     
