@@ -7,6 +7,17 @@ data/
 *.pth
 *.pt
 
+# Ignore feather files and yaml files
+*.feather
+*.yaml
+
+#ignore logs
+logs/
+*.log
+
+#ignore Label Files
+*.csv
+
 # Ignore python cache
 __pycache__/
 .ipynb_checkpoints/
