@@ -129,14 +129,13 @@ if __name__ == "__main__":
     IN_COLAB = 'google.colab' in sys.modules
     
     if IN_COLAB:
-        # Absolute paths for Google Colab environment
-        train_csv = "/content/carla-ml-safety/data/train_metadata.csv"
-        test_csv = "/content/carla-ml-safety/data/test_metadata.csv"
+        # Update the targets to use your uploaded labels.csv file
+        train_csv = "/content/carla-ml-safety/data/labels.csv"
+        test_csv = "/content/carla-ml-safety/data/labels.csv"
         img_dir = "/content/carla-ml-safety/data/images"
     else:
-        # Standard relative paths for your local laptop environment
-        train_csv = "../../data/train_metadata.csv"
-        test_csv = "../../data/test_metadata.csv"
+        train_csv = "../../data/labels.csv"
+        test_csv = "../../data/labels.csv"
         img_dir = "../../data/images"
     
     tasks = ['pedestrian', 'vehicle', 'traffic_light']
