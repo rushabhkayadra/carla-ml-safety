@@ -125,10 +125,19 @@ def execute_training_pipeline(task_key, train_csv, img_dir, test_csv, epochs=10,
     return acc, prec, rec, f1
 
 if __name__ == "__main__":
-    # Adjust path targets to line up with active structural environments
-    train_csv = "../../data/train_metadata.csv"
-    test_csv = "../../data/test_metadata.csv"
-    img_dir = "../../data/images"
+    # Check if we are running in a Google Colab environment
+    IN_COLAB = 'google.colab' in sys.modules
+    
+    if IN_COLAB:
+        # Absolute paths for Google Colab environment
+        train_csv = "/content/carla-ml-safety/data/train_metadata.csv"
+        test_csv = "/content/carla-ml-safety/data/test_metadata.csv"
+        img_dir = "/content/carla-ml-safety/data/images"
+    else:
+        # Standard relative paths for your local laptop environment
+        train_csv = "../../data/train_metadata.csv"
+        test_csv = "../../data/test_metadata.csv"
+        img_dir = "../../data/images"
     
     tasks = ['pedestrian', 'vehicle', 'traffic_light']
     summary_results = {}
