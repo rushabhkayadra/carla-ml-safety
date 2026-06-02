@@ -149,7 +149,7 @@ if __name__ == "__main__":
     summary_results = {}
     
     for task in tasks:
-        metrics = execute_training_pipeline(task, train_csv, img_dir, test_csv, epochs=8, batch_size=32)
+        metrics = execute_training_pipeline(task, train_csv, img_dir, test_csv, epochs=15, batch_size=32)
         summary_results[task] = metrics
         
     print("\n========================= COMPLETE SYSTEM EVALUATION SUMMARY =========================")
