@@ -1,6 +1,6 @@
 # Exercise Sheet 7: Anomaly Detection & Out-of-Distribution (OOD) Safety Monitoring
 
-This directory contains the analytical deliverables, empirical verification assets, and safety engineering extensions for Exercise Sheet 9 ("Anomaly Detection"). The primary focus of this assessment is to evaluate the silent failure vulnerabilities of the frozen CARLA perception subsystems under out-of-ODD environmental anomalies (fog and night) and spatial domain shifts (unencountered town layouts). Additionally, this study implements, benchmarks, and contrasts post-hoc logit-based monitoring with advanced class-conditional feature-space anomaly detection systems.
+This directory contains the analytical deliverables, empirical verification assets, and safety engineering extensions for Exercise Sheet 7 ("Anomaly Detection"). The primary focus of this assessment is to evaluate the silent failure vulnerabilities of the frozen CARLA perception subsystems under out-of-ODD environmental anomalies (fog and night) and spatial domain shifts (unencountered town layouts). Additionally, this study implements, benchmarks, and contrasts post-hoc logit-based monitoring with advanced class-conditional feature-space anomaly detection systems.
 
 ---
 
