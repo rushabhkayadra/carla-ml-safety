@@ -8,7 +8,7 @@ This directory contains the analytical derivations, empirical vulnerability prof
 
 ### Exercise 8.1: Adversarial Examples vs. Out-of-Distribution Data
 * **Adversarial Examples:** These are maliciously optimized input vectors engineered by adding a worst-case, imperceptible perturbation noise mask $\delta$ to a clean training sample $x$. The perturbation vector is specifically calculated to maximize the network's loss function, shifting intermediate layer activations across localized classification hyperplanes to trigger an intentional misclassification.
-* **Out-of-Distribution (OOD) Examples:** These samples represent natural covariate shifts or environmental alterations (such as heavy fog, night cycles, or novel city layouts) that violate the model's training distribution boundaries. 
+* **Out-of-Distribution (OOD) Examples:** These samples represent natural covariate shifts or environmental alterations (such as heavy fog, night cycles, or novel city layouts) that violate the model's training distribution boundaries.
 
 #### Core Machine Learning Safety Distinctions
 Unlike OOD data—which results from natural, non-malicious environmental factors that spread across all feature vectors—adversarial examples are explicitly optimized threats. They leverage high-dimensional geometric vulnerabilities to force severe model failures while remaining completely identical to nominal data under standard statistical distribution checks.
@@ -91,8 +91,8 @@ To protect the vehicle loop against adversarial vulnerabilities, we extend our S
 * **System-Level Fallback Constraint:** If downstream tracking logic detects a sudden, high-frequency drop in object detection confidence or a high-entropy state transition while the vehicle is moving, the trajectory planner must abort nominal driving modes within **100 milliseconds** and initiate a safe fallback maneuver.
 
 ### Exercise 8.6.4: Structural Residual Risk Analysis
-Even if we achieve robust adversarial training that fully satisfies our model-level constraints, significant **residual risk** remains inside our system safety architecture. 
+Even if we achieve robust adversarial training that fully satisfies our model-level constraints, significant **residual risk** remains inside our system safety architecture.
 
-Adversarial training is highly budget-specific. Hardening a network against an $\ell_{\infty}$ attack bound of $\epsilon = 0.01$ provides no protection against an attacker utilizing a slightly larger budget ($\epsilon = 0.03$) or transitioning to alternative mathematical structures like $\ell_2$ or unbounded geometric spatial attacks. 
+Adversarial training is highly budget-specific. Hardening a network against an $\ell_{\infty}$ attack bound of $\epsilon = 0.01$ provides no protection against an attacker utilizing a slightly larger budget ($\epsilon = 0.03$) or transitioning to alternative mathematical structures like $\ell_2$ or unbounded geometric spatial attacks.
 
 Furthermore, adversarial training cannot protect the vehicle against structural blindspots or edge cases that occur naturally inside the nominal clean distribution. If a pedestrian is physically occluded by urban infrastructure, the primary models will fail to detect them regardless of how robustly they are trained against gradient noise. Because of these limitations, robust training cannot serve as a standalone safety guarantee; it must be coupled with independent system-level fallbacks to manage unavoidable residual risks.
