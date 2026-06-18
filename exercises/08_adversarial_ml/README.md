@@ -15,8 +15,7 @@ Unlike OOD data—which results from natural, non-malicious environmental factor
 
 ### Exercise 8.2: Gradient-Based Attack Optimization Mechanics
 A basic iterative gradient-based attack updates the input image iteratively using the following optimization rule:
-$$x_{i+1} = x_{i} + lpha
-abla_{x}\mathcal{L}(y, f(x_{i}))$$
+x_(i+1)=x_i+α∇_x L(y,f(x_i))
 
 #### 1. Term Characterization Breakdown
 * $x_i$: The current spatial state of the input image matrix at iteration step $i$.
@@ -33,12 +32,14 @@ abla_{x}\mathcal{L}(y_{	ext{target}}, f(x_{i}))$$
 #### 3. Perturbation Budget Constraints & Projection Modifications
 The unconstrained update rule fails to respect a tight perturbation budget $\|x_{0}-x_{t}\|\le\epsilon$ because the gradient vector can step infinitely across the input domain, corrupting the image until it is visually unrecognizable. To restrict the noise within an $\ell_{\infty}$ bounds budget, the formula must integrate a **Projected Gradient Descent (PGD)** operator that clips the accumulated error back into the valid neighborhood:
 $$x_{i+1} = 	ext{Proj}_{x_0 + \mathcal{B}(\epsilon)} \left( x_{i} + lpha \cdot 	ext{sign}(
-abla_{x}\mathcal{L}(y, f(x_{i}))) ight)$$
+abla_{x}\mathcal{L}(y, f(x_{i}))) 
+ight)$$
 Where $	ext{Proj}$ clamps the modified matrix back within the strict $\epsilon$-ball radius surrounding the original clean image $x_0$, while also safeguarding valid $[0, 1]$ pixel intensity ranges.
 
 ### Exercise 8.3: Adversarial Training Defense & Empirical Trade-Offs
 Adversarial training treats robustness as a minimax optimization problem, injecting dynamically generated adversarial examples directly back into the training loop:
-$$\min_{	heta} \mathbb{E}_{(x,y)\sim\mathcal{D}} \left[ \max_{\|\delta\|\le\epsilon} \mathcal{L}(y, f(x + \delta; 	heta)) ight]$$
+$$\min_{	heta} \mathbb{E}_{(x,y)\sim\mathcal{D}} \left[ \max_{\|\delta\|\le\epsilon} \mathcal{L}(y, f(x + \delta; 	heta)) 
+ight]$$
 The inner maximization discovers the most destructive local perturbation for the current model parameters $	heta$, while the outer minimization adjusts the network weights to minimize that adversarial loss.
 
 #### The Accuracy-Robustness Trade-Off
