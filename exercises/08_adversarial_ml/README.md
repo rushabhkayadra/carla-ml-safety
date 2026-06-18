@@ -82,7 +82,7 @@ While adversarial training effectively hardens the network's decision hyperplane
 
 We evaluated our three pre-trained binary classification heads (Pedestrian, Vehicle, and Traffic Light detectors) under white-box Fast Gradient Sign Method (FGSM) attacks:
 $$x_{adv} = x + \epsilon \cdot 	{sign}(
-abla_{x}\mathcal{L}(y, f(x)))$$
+∇_{x} L(y, f(x)))$$
 
 ### Exercise 8.4.3: Perceptual Human-Inspection Log
 The empirical transformations are compiled across our evaluation splits within the visualization matrix below:
