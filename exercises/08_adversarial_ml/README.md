@@ -19,24 +19,29 @@ x_(i+1)=x_i+α∇_x L(y,f(x_i))
 
 #### 1. Term Characterization Breakdown
 The basic iterative gradient-based attack is defined by the following recursive update rule:
-x_(i+1)=x_i+α∇_x L(y,f(x_i))
+**x_(i+1)=x_i+α∇_x L(y,f(x_i))**
 	**Definition:** x_irepresents the multidimensional tensor of the input image at the current attack iteration step i, while x_(i+1)represents its modified state at the subsequent step.
 	**CARLA Context:** Consider a forward-facing RGB camera tracking a resolution of 224×224×3pixels while the vehicle navigates Town-01. The base matrix x_0is the clean, uncorrupted image captured by the camera sensor. Each transition from x_ito x_(i+1)represents a microscopic, pixel-level manipulation of the red, green, and blue values across the image matrix.
-f(x_i)(The Target Model Classifier)
+	
+**f(x_i)(The Target Model Classifier)**
 	**Definition:** This is the forward inference pass of the frozen neural network model, evaluating the active input state x_ito output a prediction vector.
 	**CARLA Context:** In your multi-task setup, frepresents one of your binary classification heads, such as the Pedestrian Detector. The network takes the current image state x_iand outputs an unactivated scalar logit, which is subsequently passed through a Sigmoid activation to yield an operational probability, P("Pedestrian Present"∣x_i).
-y(The Ground Truth Reference Label)
+
+**y(The Ground Truth Reference Label)**
 	**Definition:** The true target supervisor class variable corresponding to the original semantic content of the scene.
 	**CARLA Context:** If a pedestrian is physically standing on the asphalt crosswalk directly in front of the vehicle, the categorical ground truth label is strictly y=1.0(Present).
-L(y,f(x_i))(The Objective Loss Function)
+
+**L(y,f(x_i))(The Objective Loss Function)**
 	**Definition:** The mathematical cost function evaluating the exact divergence between the model’s current prediction and the true ground truth label.
 	**CARLA Context:** For your binary classifiers, this is the Binary Cross-Entropy (BCE) Loss. If the model correctly identifies the pedestrian with 98%confidence, the loss Lis exceptionally low, approaching 0.0. If the model is fooled into outputting a low confidence score, the loss spikes toward a high scalar value.
-∇_x(The Input Space Jacobian Gradient Operator)
+	
+**∇_x(The Input Space Jacobian Gradient Operator)**
 	**Definition:** This is the core engine of the attack. Unlike standard backpropagation—which calculates gradients with respect to the network weights (∇_θ) to train the model—this operator computes the partial derivatives of the loss function strictly with respect to the input pixel coordinates x.
 	**CARLA Context:** The model weights remain frozen. The backpropagation pass flows backward through the entire convolutional architecture, stopping at the input layer. It generates a gradient map matching the image dimensions (224×224×3). Each value in this matrix answers a specific mathematical question: “If I increase or decrease the intensity of the Blue channel at pixel coordinate (Row 45, Column 112) by a microscopic amount, will the model’s classification loss go up or down?”
-α(The Optimization Step Size)
+	
+**α(The Optimization Step Size)**
 	**Definition:** The learning rate or scaling multiplier applied directly to the gradient vector. It dictates the physical magnitude of the pixel modification executed at each iteration step.
-##### The +Operator (Gradient Ascent)
+**The +Operator (Gradient Ascent)**
 	**Definition:** Adding the gradient vector signifies Gradient Ascent. In standard training, models minimize error by subtracting the gradient (Gradient Descent). By adding the gradient, the attacker deliberately moves the input pixels in the spatial direction that maximizes the loss function L.
 
 
