@@ -60,11 +60,11 @@ x_(i+1)=x_i-α∇_x L(y_"target" ,f(x_i))
 
 
 #### 3. Perturbation Budget Constraints & Projection Modifications
-The unconstrained update rule fails to respect a tight perturbation budget $\|x_{0}-x_{t}\|\le\epsilon$ because the gradient vector can step infinitely across the input domain, corrupting the image until it is visually unrecognizable. To restrict the noise within an $\ell_{\infty}$ bounds budget, the formula must integrate a **Projected Gradient Descent (PGD)** operator that clips the accumulated error back into the valid neighborhood:
-$$x_{i+1} = 	ext{Proj}_{x_0 + \mathcal{B}(\epsilon)} \left( x_{i} + lpha \cdot 	ext{sign}(
-abla_{x}\mathcal{L}(y, f(x_{i}))) 
-ight)$$
-Where $	ext{Proj}$ clamps the modified matrix back within the strict $\epsilon$-ball radius surrounding the original clean image $x_0$, while also safeguarding valid $[0, 1]$ pixel intensity ranges.
+The unconstrained update rule fails to respect a tight perturbation budget (∥x_0-x_t∥≤ϵ) because the gradient vector can step infinitely across the input domain, corrupting the image until it is visually unrecognizable. To restrict the noise within an $\ell_{\infty}$ bounds budget, the formula must integrate a **Projected Gradient Descent (PGD)** operator that clips the accumulated error back into the valid neighborhood:
+x_(i+1)=〖"Proj" 〗_(x_0+B(ϵ)) (x_i+α⋅"sign" (∇_x L(y,f(x_i))))
+
+
+Where 〖"Proj" 〗_(x_0+B(ϵ)) clamps the modified matrix back within the strict $\epsilon$-ball radius surrounding the original clean image x_0, while also safeguarding valid [0, 1] pixel intensity ranges.
 
 ### Exercise 8.3: Adversarial Training Defense & Empirical Trade-Offs
 Adversarial training treats robustness as a minimax optimization problem, injecting dynamically generated adversarial examples directly back into the training loop:
