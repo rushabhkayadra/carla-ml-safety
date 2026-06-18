@@ -11,7 +11,7 @@ This directory contains the analytical derivations, empirical vulnerability prof
 * **Out-of-Distribution (OOD) Examples:** These samples represent natural covariate shifts or environmental alterations (such as heavy fog, night cycles, or novel city layouts) that violate the model's training distribution boundaries.
 
 #### Core Machine Learning Safety Distinctions
-Unlike OOD data—which results from natural, non-malicious environmental factors that spread across all feature vectors—adversarial examples are explicitly optimized threats. They leverage high-dimensional geometric vulnerabilities to force severe model failures while remaining completely identical to nominal data under standard statistical distribution checks.
+Unlike OOD data-which results from natural, non-malicious environmental factors that spread across all feature vectors-adversarial examples are explicitly optimized threats. They leverage high-dimensional geometric vulnerabilities to force severe model failures while remaining completely identical to nominal data under standard statistical distribution checks.
 
 ### Exercise 8.2: Gradient-Based Attack Optimization Mechanics
 A basic iterative gradient-based attack updates the input image iteratively using the following optimization rule:
@@ -36,7 +36,7 @@ The basic iterative gradient-based attack is defined by the following recursive 
 	**CARLA Context:** For your binary classifiers, this is the Binary Cross-Entropy (BCE) Loss. If the model correctly identifies the pedestrian with 98%confidence, the loss Lis exceptionally low, approaching 0.0. If the model is fooled into outputting a low confidence score, the loss spikes toward a high scalar value.
 	
 **∇_x(The Input Space Jacobian Gradient Operator)**
-	**Definition:** This is the core engine of the attack. Unlike standard backpropagation—which calculates gradients with respect to the network weights (∇_θ) to train the model—this operator computes the partial derivatives of the loss function strictly with respect to the input pixel coordinates x.
+	**Definition:** This is the core engine of the attack. Unlike standard backpropagation-which calculates gradients with respect to the network weights (∇_θ) to train the model-this operator computes the partial derivatives of the loss function strictly with respect to the input pixel coordinates x.
 	**CARLA Context:** The model weights remain frozen. The backpropagation pass flows backward through the entire convolutional architecture, stopping at the input layer. It generates a gradient map matching the image dimensions (224×224×3). Each value in this matrix answers a specific mathematical question: “If I increase or decrease the intensity of the Blue channel at pixel coordinate (Row 45, Column 112) by a microscopic amount, will the model’s classification loss go up or down?”
 	
 **α(The Optimization Step Size)**
