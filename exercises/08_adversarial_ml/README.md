@@ -46,9 +46,18 @@ The basic iterative gradient-based attack is defined by the following recursive 
 
 
 #### 2. Targeted vs. Untargeted Attack Topologies
-An **untargeted attack** is a loss-maximization problem where the adversary seeks to dissolve model correctness by pushing the image away from its true label, maximizing $\mathcal{L}(y, f(x))$. Conversely, a **targeted attack** forces the model to confidently output an explicit, incorrect target label $y_{	ext{target}}$ chosen by the adversary. To implement a targeted architecture, the update rule minimizes the loss for the fake target class, switching the sign to step *down* the gradient:
-$$x_{i+1} = x_{i} - lpha
-abla_{x}\mathcal{L}(y_{	ext{target}}, f(x_{i}))$$
+**Untargeted Attacks (Sabotage)**
+The objective of an untargeted attack is simple sabotage: maximize the model’s error. The attacker does not care what the model misclassifies the object as, only that it gets the answer wrong.
+	**CARLA Example:** A pedestrian is on the road (y=1). The untargeted attack maximizes the BCE loss, forcing the model’s prediction score down toward 0.0. This induces a severe False Negative, rendering the pedestrian invisible to the trajectory planner. The formula remains exactly as written:
+x_(i+1)=x_i+α∇_x L(y,f(x_i))
+
+**Targeted Attacks (Deception)**
+The objective of a targeted attack is precise deception. The adversary forces the model to output a specific, incorrect false label y_"target" chosen ahead of time.
+	**CARLA Example:** The road ahead is completely empty (y=0). However, an attacker wants to force the vehicle to execute an emergency stop by tricking the perception system into hallucinating a hazard. The attacker sets y_"target" =1(Pedestrian Present).
+	**Formula Re-engineering:** To force the model toward y_"target" , the optimization goal switches from maximizing baseline error to minimizing the loss with respect to the false target class. This shifts the math from gradient ascent to gradient descent, requiring a sign change to step down the target loss curve:
+x_(i+1)=x_i-α∇_x L(y_"target" ,f(x_i))
+
+
 
 #### 3. Perturbation Budget Constraints & Projection Modifications
 The unconstrained update rule fails to respect a tight perturbation budget $\|x_{0}-x_{t}\|\le\epsilon$ because the gradient vector can step infinitely across the input domain, corrupting the image until it is visually unrecognizable. To restrict the noise within an $\ell_{\infty}$ bounds budget, the formula must integrate a **Projected Gradient Descent (PGD)** operator that clips the accumulated error back into the valid neighborhood:
