@@ -68,8 +68,9 @@ Where 〖"Proj" 〗_(x_0+B(ϵ)) clamps the modified matrix back within the stric
 
 ### Exercise 8.3: Adversarial Training Defense & Empirical Trade-Offs
 Adversarial training treats robustness as a minimax optimization problem, injecting dynamically generated adversarial examples directly back into the training loop:
-$$\min_{	heta} \mathbb{E}_{(x,y)\sim\mathcal{D}} \left[ \max_{\|\delta\|\le\epsilon} \mathcal{L}(y, f(x + \delta; 	heta)) 
-ight]$$
+
+(min⁡)┬θ E_((x,y)∼D) [(max⁡)┬(∥δ∥_p≤ϵ) L(f(x+δ;θ),y)]
+
 The inner maximization discovers the most destructive local perturbation for the current model parameters $	heta$, while the outer minimization adjusts the network weights to minimize that adversarial loss.
 
 #### The Accuracy-Robustness Trade-Off
@@ -80,7 +81,7 @@ While adversarial training effectively hardens the network's decision hyperplane
 ## 2. Practical Robustness Auditing (Exercises 8.4 & 8.5)
 
 We evaluated our three pre-trained binary classification heads (Pedestrian, Vehicle, and Traffic Light detectors) under white-box Fast Gradient Sign Method (FGSM) attacks:
-$$x_{adv} = x + \epsilon \cdot 	ext{sign}(
+$$x_{adv} = x + \epsilon \cdot 	{sign}(
 abla_{x}\mathcal{L}(y, f(x)))$$
 
 ### Exercise 8.4.3: Perceptual Human-Inspection Log
