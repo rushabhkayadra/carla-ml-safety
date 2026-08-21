@@ -1,8 +1,4 @@
-# Exercise Sheet 8: Adversarial Machine Learning & Robustness Verification
-
-This directory contains the analytical derivations, empirical vulnerability profiles, and system-theoretic safety constraints for Exercise Sheet 8 ("Adversarial Machine Learning"). The primary focus of this security audit is to evaluate the susceptibility of our frozen CARLA binary perception subsystems to white-box gradient-based exploits. We implement the Fast Gradient Sign Method (FGSM) to map model degradation under strict perturbation budgets and trace these vulnerabilities up to system-level safety fallbacks.
-
----
+# Exercise Sheet 8: Adversarial Machine Learning 
 
 ## 1. Theoretical Foundations & Attack Formulations
 
