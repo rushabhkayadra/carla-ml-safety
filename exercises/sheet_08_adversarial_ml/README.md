@@ -25,12 +25,12 @@ $$x_{i+1} = x_{i} - \alpha\nabla_{x}\mathcal{L}(y_{\text{target}}, f(x_{i}))$$
 
 #### 3. Perturbation Budget Constraints & Projection Modifications
 The unconstrained update rule fails to respect a tight perturbation budget $\|x_{0}-x_{t}\|\le\epsilon$ because the gradient vector can step infinitely across the input domain, corrupting the image until it is visually unrecognizable. To restrict the noise within an $\ell_{\infty}$ bounds budget, the formula integrates a **Projected Gradient Descent (PGD)** operator that clips the accumulated error back into the valid neighborhood:
-$\$x_{i+1}\ = \text{Proj}_{x_0 + \mathcal{B}(\epsilon)} \left( x_{i} + \alpha \cdot \text{sign}(\nabla_{x}\mathcal{L}(y, f(x_{i}))) \right)$$
+x_(i+1)=〖"Proj" 〗_(x_0+B(ϵ) ) (x_i+α⋅"sign" (∇_x L(yⓜ,f(x_i ) )))
 Where $\text{Proj}$ clamps the modified matrix back within the strict $\epsilon$-ball radius surrounding the original clean image $x_0$, while also safeguarding valid $[0, 1]$ pixel intensity ranges.
 
 ### Exercise 8.3: Adversarial Training Defense & Empirical Trade-Offs
 Adversarial training treats robustness as a minimax optimization problem, injecting dynamically generated adversarial examples directly back into the training loop:
-$$\min_{\theta} \mathbb{E}_{(x,y)\sim\mathcal{D}} \left[ \max_{\|\delta\|\le\epsilon} \mathcal{L}(y, f(x + \delta; \theta)) \right]$$
+min┬θ E(xⓜ,y)∼D[max⁡〖∣δ∣≤ϵ〗 L(yⓜ,f(xⓜ;+δθ) )]
 The inner maximization discovers the most destructive local perturbation for the current model parameters $\theta$, while the outer minimization adjusts the network weights to minimize that adversarial loss.
 
 #### The Accuracy-Robustness Trade-Off
