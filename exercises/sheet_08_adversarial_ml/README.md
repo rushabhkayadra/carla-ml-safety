@@ -25,7 +25,9 @@ $$x_{i+1} = x_{i} - \alpha\nabla_{x}\mathcal{L}(y_{\text{target}}, f(x_{i}))$$
 
 #### 3. Perturbation Budget Constraints & Projection Modifications
 The unconstrained update rule fails to respect a tight perturbation budget $\|x_{0}-x_{t}\|\le\epsilon$ because the gradient vector can step infinitely across the input domain, corrupting the image until it is visually unrecognizable. To restrict the noise within an $\ell_{\infty}$ bounds budget, the formula integrates a **Projected Gradient Descent (PGD)** operator that clips the accumulated error back into the valid neighborhood:
-x_(i+1)=〖"Proj" 〗_(x_0+B(ϵ) ) (x_i+α⋅"sign" (∇_x L(yⓜ,f(x_i ) )))
+$$
+x_{i+1} = \operatorname{Proj}_{x_0 + \mathcal{B}(\epsilon)} \left( x_i + \alpha \cdot \operatorname{sign}(\nabla_x \mathcal{L}(y, f(x_i))) \right)
+$$
 Where $\text{Proj}$ clamps the modified matrix back within the strict $\epsilon$-ball radius surrounding the original clean image $x_0$, while also safeguarding valid $[0, 1]$ pixel intensity ranges.
 
 ### Exercise 8.3: Adversarial Training Defense & Empirical Trade-Offs
