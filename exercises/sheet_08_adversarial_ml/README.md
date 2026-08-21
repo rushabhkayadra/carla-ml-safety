@@ -1,6 +1,6 @@
 # Exercise Sheet 8: Adversarial Machine Learning & Robustness Verification
 
-This directory contains the analytical derivations, empirical vulnerability profiles, and system-theoretic safety constraints for Exercise Sheet 8 ("Adversarial Machine Learning")[cite: 4]. The primary focus of this security audit is to evaluate the susceptibility of our frozen CARLA binary perception subsystems to white-box gradient-based exploits[cite: 4]. We implement the Fast Gradient Sign Method (FGSM) to map model degradation under strict perturbation budgets and trace these vulnerabilities up to system-level safety fallbacks[cite: 4].
+This directory contains the analytical derivations, empirical vulnerability profiles, and system-theoretic safety constraints for Exercise Sheet 8 ("Adversarial Machine Learning"). The primary focus of this security audit is to evaluate the susceptibility of our frozen CARLA binary perception subsystems to white-box gradient-based exploits. We implement the Fast Gradient Sign Method (FGSM) to map model degradation under strict perturbation budgets and trace these vulnerabilities up to system-level safety fallbacks.
 
 ---
 
@@ -8,10 +8,10 @@ This directory contains the analytical derivations, empirical vulnerability prof
 
 ### Exercise 8.1: Adversarial Examples vs. Out-of-Distribution Data
 * **Adversarial Examples:** Maliciously optimized input vectors engineered by adding a worst-case, imperceptible perturbation noise mask $\delta$ to a clean training sample $x$. The perturbation vector is specifically calculated to maximize the network's loss function, shifting intermediate layer activations across localized classification hyperplanes to trigger an intentional misclassification.
-* **Out-of-Distribution (OOD) Examples:** Natural covariate shifts or environmental alterations (such as heavy fog, night cycles, or novel city layouts) that violate the model's training distribution boundaries[cite: 4].
+* **Out-of-Distribution (OOD) Examples:** Natural covariate shifts or environmental alterations (such as heavy fog, night cycles, or novel city layouts) that violate the model's training distribution boundaries.
 
 #### Core Machine Learning Safety Distinctions
-Unlike OOD data—which results from natural, non-malicious environmental factors that spread across all feature vectors—adversarial examples are explicitly optimized threats[cite: 4]. They leverage high-dimensional geometric vulnerabilities to force severe model failures while remaining identical to nominal data under standard statistical distribution checks.
+Unlike OOD data—which results from natural, non-malicious environmental factors that spread across all feature vectors—adversarial examples are explicitly optimized threats. They leverage high-dimensional geometric vulnerabilities to force severe model failures while remaining identical to nominal data under standard statistical distribution checks.
 
 ### Exercise 8.2: Gradient-Based Attack Optimization Mechanics
 A basic iterative gradient-based attack updates the input image iteratively using the following optimization rule:
@@ -44,7 +44,7 @@ While adversarial training hardens the network's decision hyperplanes against hi
 
 ## 2. Practical Robustness Auditing (Exercises 8.4 & 8.5)
 
-We evaluated our three pre-trained binary classification heads (Pedestrian, Vehicle, and Traffic Light detectors) under white-box Fast Gradient Sign Method (FGSM) attacks[cite: 4]:
+We evaluated our three pre-trained binary classification heads (Pedestrian, Vehicle, and Traffic Light detectors) under white-box Fast Gradient Sign Method (FGSM) attacks:
 $$x_{adv} = x + \epsilon \cdot \text{sign}(\nabla_{x}\mathcal{L}(y, f(x)))$$
 
 ### Exercise 8.4.3: Perceptual Human-Inspection Log
@@ -61,11 +61,11 @@ The empirical transformations are compiled across our evaluation splits within t
 
 #### Perceptual Threshold Observations
 * **At $\epsilon = 0.01$:** The adversarial noise mask is entirely imperceptible to a human auditor. The semantic content of the scene remains clear, yet the underlying gradient vectors successfully deceive the intermediate activation layers.
-* **At $\epsilon = 0.05$:** High-frequency visual distortion becomes subtly visible as light background grain. However, the core objects, lane lines, and safety-critical road assets remain identifiable to a human operator[cite: 4].
+* **At $\epsilon = 0.05$:** High-frequency visual distortion becomes subtly visible as light background grain. However, the core objects, lane lines, and safety-critical road assets remain identifiable to a human operator.
 * **At $\epsilon = 0.10$:** The mathematical perturbations become highly visible as a distinct high-frequency noise overlay across all color channels. While humans can still isolate the background semantic layout, the visual quality is degraded.
 
 ### Exercise 8.5: Quantitative Safety Performance Matrix
-The table below tracks model performance across 100 randomly sampled test frames, mapping the exact **Recall Drop** observed as the adversarial perturbation budget increases[cite: 4]:
+The table below tracks model performance across 100 randomly sampled test frames, mapping the exact **Recall Drop** observed as the adversarial perturbation budget increases:
 
 | Evaluation Target Model | Clean Recall Baseline | $\epsilon = 0.01$ Recall / Drop | $\epsilon = 0.05$ Recall / Drop | $\epsilon = 0.10$ Recall / Drop |
 | :--- | :---: | :---: | :---: | :---: |
@@ -74,28 +74,28 @@ The table below tracks model performance across 100 randomly sampled test frames
 | **Traffic Light Detector** | 94.00% | 79.00% ($-15.00\%$) | 41.00% ($-53.00\%$) | 08.00% ($-86.00\%$) |
 
 #### Vulnerability Analysis
-The empirical results reveal that single-step FGSM attacks cause massive safety degradation across all three primary perception models[cite: 4]. Even at an imperceptible budget of $\epsilon = 0.01$, the systems experience an average recall drop of **$14.67\%$**[cite: 4]. This vulnerability escalates rapidly; at $\epsilon = 0.05$, over half of all safety-critical targets vanish from object tracking loops, causing the system to fail silently under minor adversarial variations[cite: 4].
+The empirical results reveal that single-step FGSM attacks cause massive safety degradation across all three primary perception models. Even at an imperceptible budget of $\epsilon = 0.01$, the systems experience an average recall drop of **$14.67\%$**. This vulnerability escalates rapidly; at $\epsilon = 0.05$, over half of all safety-critical targets vanish from object tracking loops, causing the system to fail silently under minor adversarial variations.
 
 ---
 
 ## 3. System-Theoretic Process Analysis (STPA) Extension (Exercise 8.6)
 
-To protect the vehicle loop against adversarial vulnerabilities, we extend our STPA framework to incorporate adversarial risk vectors[cite: 4].
+To protect the vehicle loop against adversarial vulnerabilities, we extend our STPA framework to incorporate adversarial risk vectors.
 
 ### Exercise 8.6.1: Refined System Hazards Matrix
-* **H-4 (Expanded Perception Hazard):** The vehicle operates outside its validated performance envelope due to unmonitored, corrupted, or adversarially manipulated perception inputs[cite: 4].
-* **System-Level Direct Effect:** The primary classifiers fail silently under adversarial attack, causing object tracking dropouts that lead directly to collisions with pedestrians, vehicles, or infrastructure[cite: 4].
+* **H-4 (Expanded Perception Hazard):** The vehicle operates outside its validated performance envelope due to unmonitored, corrupted, or adversarially manipulated perception inputs.
+* **System-Level Direct Effect:** The primary classifiers fail silently under adversarial attack, causing object tracking dropouts that lead directly to collisions with pedestrians, vehicles, or infrastructure.
 
 ### Exercise 8.6.2: Unsafe Control Actions (UCAs) Extension
-* **UCA-8:** The automated vehicle trajectory planner continues to execute nominal high-speed cruise velocity commands when camera inputs are subjected to adversarial perturbations and the primary pedestrian classifier has been fooled into outputting a false negative[cite: 4].
+* **UCA-8:** The automated vehicle trajectory planner continues to execute nominal high-speed cruise velocity commands when camera inputs are subjected to adversarial perturbations and the primary pedestrian classifier has been fooled into outputting a false negative.
 
 ### Exercise 8.6.3: Derived Safety Constraints
-* **Model-Level Robustness Constraint:** The primary classification networks must implement defensive regularizations (e.g., adversarial training) ensuring that under any white-box perturbation budget bounded by $\epsilon \le 0.01$, the model recall drop cannot exceed **$\le 5.0\%$** relative to the clean dataset baseline[cite: 4].
-* **System-Level Fallback Constraint:** If downstream tracking logic detects a sudden, high-frequency drop in object detection confidence or a high-entropy state transition while the vehicle is moving, the trajectory planner must abort nominal driving modes within **100 milliseconds** and initiate a safe fallback maneuver[cite: 4].
+* **Model-Level Robustness Constraint:** The primary classification networks must implement defensive regularizations (e.g., adversarial training) ensuring that under any white-box perturbation budget bounded by $\epsilon \le 0.01$, the model recall drop cannot exceed **$\le 5.0\%$** relative to the clean dataset baseline.
+* **System-Level Fallback Constraint:** If downstream tracking logic detects a sudden, high-frequency drop in object detection confidence or a high-entropy state transition while the vehicle is moving, the trajectory planner must abort nominal driving modes within **100 milliseconds** and initiate a safe fallback maneuver.
 
 ### Exercise 8.6.4: Structural Residual Risk Analysis
-Even if we achieve robust adversarial training that fully satisfies our model-level constraints, significant **residual risk** remains inside our system safety architecture[cite: 4].
+Even if we achieve robust adversarial training that fully satisfies our model-level constraints, significant **residual risk** remains inside our system safety architecture.
 
 Adversarial training is budget-specific. Hardening a network against an $\ell_{\infty}$ attack bound of $\epsilon = 0.01$ provides no protection against an attacker utilizing a larger budget ($\epsilon = 0.03$) or transitioning to alternative mathematical structures like $\ell_2$ or unbounded geometric spatial attacks.
 
-Furthermore, adversarial training cannot protect the vehicle against structural blindspots or edge cases that occur naturally inside the nominal clean distribution[cite: 4]. If a pedestrian is physically occluded by urban infrastructure, the primary models will fail to detect them regardless of how robustly they are trained against gradient noise[cite: 4]. Because of these limitations, robust training cannot serve as a standalone safety guarantee; it must be coupled with independent system-level fallbacks to manage unavoidable residual risks[cite: 4].
+Furthermore, adversarial training cannot protect the vehicle against structural blindspots or edge cases that occur naturally inside the nominal clean distribution. If a pedestrian is physically occluded by urban infrastructure, the primary models will fail to detect them regardless of how robustly they are trained against gradient noise. Because of these limitations, robust training cannot serve as a standalone safety guarantee; it must be coupled with independent system-level fallbacks to manage unavoidable residual risks.
