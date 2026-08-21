@@ -30,7 +30,7 @@ Where $\text{Proj}$ clamps the modified matrix back within the strict $\epsilon$
 
 ### Exercise 8.3: Adversarial Training Defense & Empirical Trade-Offs
 Adversarial training treats robustness as a minimax optimization problem, injecting dynamically generated adversarial examples directly back into the training loop:
-$$\min_{\theta} \mathbb{E}_{(x, y) \sim \mathcal{D}} \left[ \max_{\|\delta\| \le \epsilon} \mathcal{L}(y, f(x + \delta; \theta)) \right]$$
+$\min_{\theta} \mathbb{E}_{(x, y) \sim \mathcal{D}} \left[ \max_{\|\delta\| \le \epsilon} \mathcal{L}(y, f(x + \delta; \theta)) \right]$
 The inner maximization discovers the most destructive local perturbation for the current model parameters $\theta$, while the outer minimization adjusts the network weights to minimize that adversarial loss.
 
 #### The Accuracy-Robustness Trade-Off
