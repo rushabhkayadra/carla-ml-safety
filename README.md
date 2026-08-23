@@ -3,10 +3,7 @@
 ## Project Overview
 
 This project evaluates the **machine-learning safety of a CARLA-based
-autonomous driving perception system** as part of the *Machine Learning
-Safety* course in the Master's programme in Data and Knowledge
-Engineering (DKE) at Otto-von-Guericke University Magdeburg.
-
+autonomous driving perception system**.
 The system uses a forward-facing RGB camera and three independent binary
 perception models to detect:
 
