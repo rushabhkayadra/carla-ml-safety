@@ -1,12 +1,5 @@
 # Exercise Sheet 3: Fundamentals & Baseline Training
 
-**Course:** Introduction to Machine Learning Safety  
-**Date:** May 8, 2026  
-**Author:** Rushabh Kayadra  
-**Institution:** Otto-von-Guericke-Universität Magdeburg  
-**Program:** Master's in Data and Knowledge Engineering (DKE)  
-
----
 
 ## 1. Automatic Differentiation & Optimization Theory
 
