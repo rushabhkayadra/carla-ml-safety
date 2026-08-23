@@ -94,18 +94,7 @@ carla-ml-safety/
 ├── CARLA_MLS_final.ipynb
 │
 ├── src/
-│   ├── dataset.py
 │   └── labels.csv
-│
-├── data/
-│   ├── labels.csv
-│   └── rgb-front/
-│       └── <CARLA RGB frames>
-│
-├── checkpoints/
-│   ├── pedestrian_classifier.pt
-│   ├── vehicle_classifier.pt
-│   └── traffic_light_classifier.pt
 │
 ├── exercises/
 │   ├── sheet_03_fundamentals/
@@ -119,13 +108,8 @@ carla-ml-safety/
 └── safety_case_report.pdf
 ```
 
-The large CARLA image dataset should generally **not be committed to
-GitHub**. The notebook is designed to access the extracted RGB frames
-through a Google Drive mount during execution.
-
 Generated experiment outputs such as plots, CSV logs and model
-checkpoints are stored under the corresponding `exercises/` and
-`checkpoints/` directories.
+checkpoints are stored under the corresponding `exercises/` directories.
 
 ------------------------------------------------------------------------
 
